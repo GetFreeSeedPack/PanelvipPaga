@@ -1,7 +1,7 @@
 -- =============================================
--- 🔑 PANEL VIP + 🌈 RAINBOW — MINIMIZABLE ARREGLADO + OFUSCADO
--- ✅ BOTÓN MINIMIZAR VISIBLE ARRIBA DERECHA
--- ✅ MISMA ESTRUCTURA ORIGINAL · OFUSCADO
+-- 🔑 PANEL KEY + 🌈 RAINBOW — ARREGLADO + ESTRUCTURA ORIGINAL
+-- ✅ MINIMIZAR FUNCIONAL · HOLO + ESP + NOCLIP ARREGLADOS
+-- ✅ NOCLIP CON TU ESTRUCTURA EXACTA DEL CÓDIGO AZUL
 -- =============================================
 
 local _=game:GetService"Players"local __=game:GetService"RunService"local ___=_.LocalPlayer
@@ -10,7 +10,7 @@ local _______=function(t)return Color3.fromHSV((os.clock()+(t or 0))%6/6,1,1)end
 local ________,_________=Color3.fromRGB(0,100,255),Color3.fromRGB(15,23,42)
 local __________,___________,____________,_____________=false,false,false,{}
 local ______________,_______________,________________,_________________={},nil,nil,false
-local __________________=function(k)k=string.upper(string.gsub(k or "","%s+",""))if #k~=20 or string.sub(k,1,4)~="FREE"then return{ok=false,msg="❌ Formato: FREE + 16 NÚMEROS"}end local n=string.sub(k,5)if not string.match(n,"^%d+$")then return{ok=false,msg="❌ Solo números"}end return{ok=true,msg="✅ KEY ACEPTADA — BIENVENIDO!"}end
+local __________________=function(k)k=string.upper(string.gsub(k or "","%s+",""))if #k~=20 or string.sub(k,1,4)~="FREE"then return{ok=false,msg="❌ Formato: FREE + 16 NÚMEROS"}end local n=string.sub(k,5)if not string.match(n,"^%d+$")then return{ok=false,msg="❌ Solo números"}end return{ok=true,msg="✅ KEY ACEPTADA!"}end
 
 local ___________________=Instance.new"ScreenGui"___________________.Name="VIP"___________________.ResetOnSpawn=false ___________________.Parent=____
 local ____________________=Instance.new"Frame"____________________.Size=UDim2.new(1,0,1,0)____________________.BackgroundTransparency=1 ____________________.Parent=___________________
@@ -52,33 +52,33 @@ _____________________________.MouseButton1Click:Connect(function()
         spawn(function()
             local __=Instance.new"ScreenGui"__.Name="Rainbow"__.ResetOnSpawn=false __.Parent=____
             
-            local ___=Instance.new"Frame"___.Size=UDim2.new(0,260,0,260)___.Position=UDim2.new(0.02,0,0.5,-130)___.BackgroundColor3=Color3.fromRGB(15,15,35)___.BorderSizePixel=2 ___.BorderColor3=_______()___.Active=true ___.Draggable=true ___.Parent=__
+            local ___=Instance.new"Frame"___.Size=UDim2.new(0,240,0,220)___.Position=UDim2.new(0.02,0,0.5,-110)___.BackgroundColor3=Color3.fromRGB(15,15,35)___.BorderSizePixel=2 ___.BorderColor3=_______()___.Active=true ___.Draggable=true ___.Parent=__
             local ____=Instance.new"UICorner"____.CornerRadius=UDim.new(0,16)____.Parent=___
 
-            local _____=Instance.new"Frame"_____.Size=UDim2.new(1,0,0,50)_____.BackgroundColor3=_______()_____.Parent=___
+            local _____=Instance.new"Frame"_____.Size=UDim2.new(1,0,0,40)_____.BackgroundColor3=_______()_____.Parent=___
             local ______=Instance.new"UICorner"______.CornerRadius=UDim.new(0,16)______.Parent=_____
 
             local _______=Instance.new"TextLabel"_______.Size=UDim2.new(1,-80,1,0)_______.Position=UDim2.new(0,15,0,0)_______.BackgroundTransparency=1
             _______.Text="🌈 RAINBOW PACK"_______.TextColor3=Color3.new(1,1,1)_______.Font=Enum.Font.GothamBold _______.TextSize=15 _______.Parent=_____
 
             -- ✅ BOTÓN MINIMIZAR — ARREGLADO Y VISIBLE
-            local ________=Instance.new"TextButton"________.Name="BtnMin"________.Size=UDim2.new(0,40,0,40)________.Position=UDim2.new(1,-85,0,5)________.BackgroundColor3=Color3.fromRGB(30,100,180)________.Text="−"________.TextColor3=Color3.new(1,1,1)________.Font=Enum.Font.GothamBold ________.TextSize=24 ________.Parent=_____
+            local ________=Instance.new"TextButton"________.Size=UDim2.new(0,35,0,35)________.Position=UDim2.new(1,-75,0,2.5)________.BackgroundColor3=Color3.fromRGB(30,100,180)________.Text="−"________.TextColor3=Color3.new(1,1,1)________.Font=Enum.Font.GothamBold ________.TextSize=22 ________.Parent=_____
 
-            local _________=Instance.new"TextButton"_________.Name="BtnClose"_________.Size=UDim2.new(0,40,0,40)_________.Position=UDim2.new(1,-45,0,5)_________.BackgroundColor3=Color3.fromRGB(180,40,40)_________.Text="×"_________.TextColor3=Color3.new(1,1,1)_________.Font=Enum.Font.GothamBold _________.TextSize=24 _________.Parent=_____
+            local _________=Instance.new"TextButton"_________.Size=UDim2.new(0,35,0,35)_________.Position=UDim2.new(1,-35,0,2.5)_________.BackgroundColor3=Color3.fromRGB(180,40,40)_________.Text="×"_________.TextColor3=Color3.new(1,1,1)_________.Font=Enum.Font.GothamBold _________.TextSize=22 _________.Parent=_____
 
-            local __________=Instance.new"Frame"__________.Name="Content"__________.Size=UDim2.new(1,-20,0,200)__________.Position=UDim2.new(0,10,0,55)__________.BackgroundTransparency=1 __________.Parent=___
+            local __________=Instance.new"Frame"__________.Size=UDim2.new(1,-20,0,170)__________.Position=UDim2.new(0,10,0,50)__________.BackgroundTransparency=1 __________.Parent=___
 
-            local ___________=Instance.new"TextButton"___________.Size=UDim2.new(1,0,0,55)___________.Position=UDim2.new(0,0,0,0)___________.BackgroundColor3=Color3.fromRGB(30,30,60)___________.Text="🌈 HOLOGRAMA: OFF"___________.TextColor3=Color3.fromRGB(220,200,255)___________.Font=Enum.Font.Gotham ___________.TextSize=14 ___________.Parent=__________
+            local ___________=Instance.new"TextButton"___________.Size=UDim2.new(1,0,0,45)___________.Position=UDim2.new(0,0,0,0)___________.BackgroundColor3=Color3.fromRGB(30,30,60)___________.BorderSizePixel=1 ___________.BorderColor3=_______()___________.Text="🌈 HOLOGRAMA: OFF"___________.TextColor3=Color3.fromRGB(220,200,255)___________.Font=Enum.Font.Gotham ___________.TextSize=14 ___________.Parent=__________
             local ____________=Instance.new"UICorner"____________.CornerRadius=UDim.new(0,12)____________.Parent=___________
 
-            local _____________=Instance.new"TextButton"_____________.Size=UDim2.new(1,0,0,55)_____________.Position=UDim2.new(0,0,0,65)_____________.BackgroundColor3=Color3.fromRGB(30,30,60)_____________.Text="🌈 ESP LÍNEA: OFF"_____________.TextColor3=Color3.fromRGB(220,200,255)_____________.Font=Enum.Font.Gotham _____________.TextSize=14 _____________.Parent=__________
+            local _____________=Instance.new"TextButton"_____________.Size=UDim2.new(1,0,0,45)_____________.Position=UDim2.new(0,0,0,55)_____________.BackgroundColor3=Color3.fromRGB(30,30,60)_____________.BorderSizePixel=1 _____________.BorderColor3=_______()_____________.Text="🌈 ESP LÍNEA: OFF"_____________.TextColor3=Color3.fromRGB(220,200,255)_____________.Font=Enum.Font.Gotham _____________.TextSize=14 _____________.Parent=__________
             local ______________=Instance.new"UICorner"______________.CornerRadius=UDim.new(0,12)______________.Parent=_____________
 
-            local _______________=Instance.new"TextButton"________________.Size=UDim2.new(1,0,0,55)________________.Position=UDim2.new(0,0,0,130)________________.BackgroundColor3=Color3.fromRGB(30,30,60)________________.Text="🚀 NOCLIP: OFF"________________.TextColor3=Color3.fromRGB(220,200,255)________________.Font=Enum.Font.Gotham ________________.TextSize=14 ________________.Parent=__________
+            local _______________=Instance.new"TextButton"________________.Size=UDim2.new(1,0,0,45)________________.Position=UDim2.new(0,0,0,110)________________.BackgroundColor3=Color3.fromRGB(30,30,60)________________.BorderSizePixel=1 ________________.BorderColor3=_______()________________.Text="🚀 NOCLIP: OFF"________________.TextColor3=Color3.fromRGB(220,200,255)________________.Font=Enum.Font.Gotham ________________.TextSize=14 ________________.Parent=__________
             local __________________=Instance.new"UICorner"__________________.CornerRadius=UDim.new(0,12)__________________.Parent=________________
 
             -- ✅ BOTÓN RESTAURAR
-            local ___________________=Instance.new"TextButton"___________________.Size=UDim2.new(0,80,0,50)___________________.BackgroundColor3=________ ___________________.Text="🌈 VIP"___________________.TextColor3=Color3.new(1,1,1)___________________.Font=Enum.Font.GothamBold ___________________.TextSize=14 ___________________.Visible=false ___________________.Active=true ___________________.Draggable=true ___________________.Parent=__
+            local ___________________=Instance.new"TextButton"___________________.Size=UDim2.new(0,70,0,45)___________________.BackgroundColor3=________ ___________________.Text="🌈 VIP"___________________.TextColor3=Color3.new(1,1,1)___________________.Font=Enum.Font.GothamBold ___________________.TextSize=13 ___________________.Visible=false ___________________.Active=true ___________________.Draggable=true ___________________.Parent=__
             local ____________________=Instance.new"UICorner"____________________.CornerRadius=UDim.new(0,12)____________________.Parent=___________________
 
             local _____________________=false
@@ -89,7 +89,7 @@ _____________________________.MouseButton1Click:Connect(function()
                 _______________.Visible=not _____________________
                 _____________.Visible=not _____________________
                 ___________.Visible=not _____________________
-                ___.Size=_____________________ and UDim2.new(0,260,0,50) or UDim2.new(0,260,0,260)
+                ___.Size=_____________________ and UDim2.new(0,240,0,40) or UDim2.new(0,240,0,220)
                 ___________________.Visible=_____________________
                 if _____________________ then ___________________.Position=___.Position end
             end
@@ -103,36 +103,98 @@ _____________________________.MouseButton1Click:Connect(function()
                 for _,l in pairs(______________)do if l then l:Remove() end end
             end)
 
+            -- =============================================
+            -- 🌈 HOLOGRAMA — ESTRUCTURA ORIGINAL DEL CÓDIGO AZUL
+            -- =============================================
             local _______________________=function(p)
                 if not ____________ then return end
                 if p==___ then return end
                 local c=p.Character
                 if not c then return end
                 if _____________[p] then return end
-                local h=Instance.new"Highlight"h.Name="Rainbow"h.FillColor=_______(0)h.OutlineColor=_______(0.5)h.FillTransparency=0.3 h.OutlineTransparency=0 h.DepthMode=Enum.HighlightDepthMode.AlwaysOnTop h.Adornee=c h.Parent=c _____________[p]=h
+                local h=Instance.new"Highlight"h.Name="HologramaRainbow"
+                h.FillColor=_______(0)h.OutlineColor=_______(0.5)
+                h.FillTransparency=0.3 h.OutlineTransparency=0
+                h.DepthMode=Enum.HighlightDepthMode.AlwaysOnTop
+                h.Adornee=c h.Parent=c
+                _____________[p]=h
             end
-            local ________________________=function(p)if _____________[p] then _____________[p]:Destroy()_____________[p]=nil end end
-            local _________________________=function()for _,p in ipairs(_:GetPlayers())do if ____________ then _______________________(p)else ________________________(p)end end end
+            local ________________________=function(p)
+                if _____________[p] then _____________[p]:Destroy()_____________[p]=nil end
+            end
+            local _________________________=function()
+                for _,p in ipairs(_:GetPlayers())do
+                    if ____________ then _______________________(p)
+                    else ________________________(p) end
+                end
+            end
 
-            task.spawn(function()while true do task.wait(0.05)if ____________ then for _,h in pairs(_____________)do if h then h.FillColor=_______(0)h.OutlineColor=_______(0.5)end end end end end)
+            -- 🔄 Animación arcoíris
+            task.spawn(function()
+                while true do task.wait(0.05)
+                    if ____________ then
+                        for _,h in pairs(_____________)do
+                            if h then h.FillColor=_______(0)h.OutlineColor=_______(0.5) end
+                        end
+                    end
+                end
+            end)
 
-            local __________________________=function()
-                if not _______________ then for _,l in pairs(______________)do l.Visible=false end return end
+            -- =============================================
+            -- 🌈 ESP LÍNEA — ESTRUCTURA ORIGINAL DEL CÓDIGO AZUL
+            -- =============================================
+            local __________________________=function(p)
+                if not _______________ then return end
+                if p==___ then return end
+                if _______________[p] then return end
+                local l=Drawing.new"Line"l.Thickness=2 l.Transparency=1
+                l.Color=_______()l.Visible=false
+                _______________[p]=l
+            end
+            local ___________________________=function(p)
+                if _______________[p] then _______________[p]:Remove()_______________[p]=nil end
+            end
+            local ____________________________=function()
+                if not _______________ then
+                    for _,l in pairs(______________)do l.Visible=false end
+                    return
+                end
                 local c=___.Character if not c then return end
                 local hrp=c:FindFirstChild"HumanoidRootPart"if not hrp then return end
-                for _,p in ipairs(_:GetPlayers())do if p==___ then continue end
-                local pc=p.Character if not pc then continue end
-                local phrp=pc:FindFirstChild"HumanoidRootPart"local h=pc:FindFirstChild"Head"if not phrp or not h then continue end
-                local v1=_____:WorldToViewportPoint(hrp.Position)local v2=_____:WorldToViewportPoint(h.Position)
-                local l=_______________[p] or Drawing.new"Line"l.Thickness=2 l.Color=_______()l.From=Vector2.new(v1.X,v1.Y)l.To=Vector2.new(v2.X,v2.Y)l.Visible=v2.Z>0 _______________[p]=l end
+                for _,p in ipairs(_:GetPlayers())do
+                    if p==___ then continue end
+                    __________________________(p)
+                    local pc=p.Character if not pc then continue end
+                    local phrp=pc:FindFirstChild"HumanoidRootPart"local h=pc:FindFirstChild"Head"
+                    if not phrp or not h then continue end
+                    local v1=_____:WorldToViewportPoint(hrp.Position)
+                    local v2=_____:WorldToViewportPoint(h.Position)
+                    local l=_______________[p]
+                    if v2.Z>0 then
+                        l.From=Vector2.new(v1.X,v1.Y)
+                        l.To=Vector2.new(v2.X,v2.Y)
+                        l.Color=_______()
+                        l.Visible=true
+                    else
+                        l.Visible=false
+                    end
+                end
             end
 
-            local ___________________________=function()
+            -- =============================================
+            -- 🚀 NOCLIP — TU ESTRUCTURA EXACTA DEL CÓDIGO AZUL
+            -- =============================================
+            local _____________________________=function()
                 if not _____________ then return end
                 local c=___.Character if not c then return end
-                for _,p in ipairs(c:GetDescendants())do if p:IsA"BasePart"then p.CanCollide=false end end
+                for _,p in ipairs(c:GetDescendants())do
+                    if p:IsA"BasePart"then p.CanCollide=false end
+                end
             end
 
+            -- =============================================
+            -- 🔘 BOTONES — ESTRUCTURA ORIGINAL
+            -- =============================================
             _______________.MouseButton1Click:Connect(function()
                 ____________=not ____________
                 _______________.Text=____________ and "🌈 HOLOGRAMA: ON ✅" or "🌈 HOLOGRAMA: OFF"
@@ -144,25 +206,61 @@ _____________________________.MouseButton1Click:Connect(function()
                 _______________=not _______________
                 _____________.Text=_______________ and "🌈 ESP LÍNEA: ON ✅" or "🌈 ESP LÍNEA: OFF"
                 _____________.BackgroundColor3=_______________ and _______() or Color3.fromRGB(30,30,60)
-                if _______________ then ________________=__.RenderStepped:Connect(__________________________)
-                else if ________________ then ________________:Disconnect()end for _,l in pairs(_______________)do if l then l:Remove()end end table.clear(_______________) end
+                if _______________ then
+                    ________________=__.RenderStepped:Connect(____________________________)
+                else
+                    if ________________ then ________________:Disconnect()end
+                    for _,l in pairs(_______________)do l.Visible=false end
+                end
             end)
 
             ________________.MouseButton1Click:Connect(function()
                 _____________=not _____________
                 ________________.Text=_____________ and "🚀 NOCLIP: ON ✅" or "🚀 NOCLIP: OFF"
                 ________________.BackgroundColor3=_____________ and _______() or Color3.fromRGB(30,30,60)
-                if _____________ then _________________=__.Stepped:Connect(___________________________)
-                else if _________________ then _________________:Disconnect()end local c=___.Character if c then for _,p in ipairs(c:GetDescendants())do if p:IsA"BasePart"then p.CanCollide=true end end end end
+                if _____________ then
+                    _________________=__.Stepped:Connect(_____________________________)
+                else
+                    if _________________ then _________________:Disconnect()end
+                    local c=___.Character if c then
+                        for _,p in ipairs(c:GetDescendants())do
+                            if p:IsA"BasePart"then p.CanCollide=true end
+                        end
+                    end
+                end
             end)
 
-            _.PlayerAdded:Connect(function(p)p.CharacterAdded:Connect(function()task.wait(0.5)if ____________ then _______________________(p) end end)end)
-            _.PlayerRemoving:Connect(function(p)________________________(p)if _______________[p] then _______________[p]:Remove()end end)
+            -- =============================================
+            -- 🔄 DETECTAR JUGADORES NUEVOS / SALIDA — IGUAL A TU CÓDIGO
+            -- =============================================
+            _.PlayerAdded:Connect(function(p)
+                p.CharacterAdded:Connect(function()
+                    task.wait(0.5)
+                    if ____________ then _______________________(p) end
+                    if _______________ then __________________________(p) end
+                end)
+            end)
 
-            task.spawn(function()while true do task.wait(0.05)___.BorderColor3=_______()_____.BackgroundColor3=_______()_______________.BorderColor3=_______()_____________.BorderColor3=_______()_______________.BorderColor3=_______()end end)
+            _.PlayerRemoving:Connect(function(p)
+                ________________________(p)
+                ___________________________(p)
+            end)
 
-            task.wait(0.5)_________________________()
-            print("🌈 PANEL CARGADO — MINIMIZABLE ✅")
+            -- Animación bordes
+            task.spawn(function()
+                while true do task.wait(0.05)
+                    ___.BorderColor3=_______()
+                    _______________.BorderColor3=_______()
+                    _____________.BorderColor3=_______()
+                    _______________.BorderColor3=_______()
+                    _____.BackgroundColor3=_______()
+                end
+            end)
+
+            -- Inicializar
+            task.wait(0.5)
+            _________________________()
+            print("🌈 PANEL CARGADO — TODO FUNCIONAL ✅")
         end)
     else
         _______________________________.Text=r.msg
