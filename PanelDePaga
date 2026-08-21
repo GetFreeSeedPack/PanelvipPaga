@@ -1,272 +1,507 @@
 -- =============================================
--- 🔑 PANEL KEY + 🌈 RAINBOW — ARREGLADO + ESTRUCTURA ORIGINAL
--- ✅ MINIMIZAR FUNCIONAL · HOLO + ESP + NOCLIP ARREGLADOS
--- ✅ NOCLIP CON TU ESTRUCTURA EXACTA DEL CÓDIGO AZUL
+-- 🔑 PANEL KEY + 🌈 RAINBOW — HOLOGRAMA ANIMADO COMPLETO
+-- ✅ HOLOGRAMA CAMBIA DE COLOR SIN PARAR — ARCOÍRIS COMPLETO
+-- ✅ TODO LO DEMÁS IGUAL — FUNCIONANDO ✅
 -- =============================================
 
-local _=game:GetService"Players"local __=game:GetService"RunService"local ___=_.LocalPlayer
-local ____=___:WaitForChild"PlayerGui"local _____=workspace.CurrentCamera
-local _______=function(t)return Color3.fromHSV((os.clock()+(t or 0))%6/6,1,1)end
-local ________,_________=Color3.fromRGB(0,100,255),Color3.fromRGB(15,23,42)
-local __________,___________,____________,_____________=false,false,false,{}
-local ______________,_______________,________________,_________________={},nil,nil,false
-local __________________=function(k)k=string.upper(string.gsub(k or "","%s+",""))if #k~=20 or string.sub(k,1,4)~="FREE"then return{ok=false,msg="❌ Formato: FREE + 16 NÚMEROS"}end local n=string.sub(k,5)if not string.match(n,"^%d+$")then return{ok=false,msg="❌ Solo números"}end return{ok=true,msg="✅ KEY ACEPTADA!"}end
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local Camera = workspace.CurrentCamera
 
-local ___________________=Instance.new"ScreenGui"___________________.Name="VIP"___________________.ResetOnSpawn=false ___________________.Parent=____
-local ____________________=Instance.new"Frame"____________________.Size=UDim2.new(1,0,1,0)____________________.BackgroundTransparency=1 ____________________.Parent=___________________
+-- 🌈 FUNCIÓN DE COLOR ARCOÍRIS — CÁMBIA SIN PARAR
+local function RainbowColor(offset)
+    return Color3.fromHSV((os.clock() + (offset or 0)) % 6 / 6, 1, 1)
+end
 
-local _____________________=Instance.new"Frame"_____________________.Size=UDim2.new(0,420,0,280)_____________________.Position=UDim2.new(0.5,-210,0.5,-140)_____________________.BackgroundColor3=_________
-_____________________.Active=true _____________________.Draggable=true _____________________.Parent=___________________
-local ______________________=Instance.new"UICorner"______________________.CornerRadius=UDim.new(0,18)______________________.Parent=_____________________
+-- ⚙️ ESTADOS DEL SISTEMA
+local HologramaActivo = false
+local ESPActivo = false
+local NoClipActivo = false
+local Highlights = {}
+local LineasESP = {}
+local ConexionESP = nil
+local ConexionNoClip = nil
+local ConexionAnimacionHolo = nil  -- ✅ Animación continua del holograma
 
-local _______________________=Instance.new"Frame"_______________________.Size=UDim2.new(1,0,0,70)_______________________.BackgroundColor3=________ _______________________.Parent=_____________________
-local ________________________=Instance.new"UICorner"________________________.CornerRadius=UDim.new(0,18)________________________.Parent=_______________________
-local _________________________=Instance.new"TextLabel"_________________________.Size=UDim2.new(1,0,1,0)_________________________.BackgroundTransparency=1
-_________________________.Text="🔐 INGRESA TU KEY"_________________________.TextColor3=Color3.new(1,1,1)_________________________.Font=Enum.Font.GothamBold _________________________.TextSize=18 _________________________.Parent=_______________________
+-- 🔐 SISTEMA DE KEY
+local KeyValida = false
+local function ValidarKey(key)
+    key = string.upper(string.gsub(key or "", "%s+", ""))
+    if #key ~= 20 or string.sub(key, 1, 4) ~= "FREE" then
+        return false, "❌ Formato: FREE + 16 NÚMEROS"
+    end
+    local numeros = string.sub(key, 5)
+    if not string.match(numeros, "^%d+$") then
+        return false, "❌ Solo números después de FREE"
+    end
+    return true, "✅ KEY ACEPTADA — BIENVENIDO!"
+end
 
-local __________________________=Instance.new"TextLabel"__________________________.Size=UDim2.new(1,-30,0,30)__________________________.Position=UDim2.new(0,15,0,80)__________________________.BackgroundTransparency=1
-__________________________.Text="🔑 FREE + 16 NÚMEROS"__________________________.TextColor3=Color3.fromRGB(180,210,255)__________________________.Font=Enum.Font.Gotham __________________________.TextSize=13 __________________________.Parent=_____________________
+-- =============================================
+-- 🔐 INTERFAZ DE KEY
+-- =============================================
+local ScreenGuiKey = Instance.new("ScreenGui")
+ScreenGuiKey.Name = "PanelKey"
+ScreenGuiKey.ResetOnSpawn = false
+ScreenGuiKey.Parent = PlayerGui
 
-local ___________________________=Instance.new"TextBox"___________________________.Size=UDim2.new(1,-30,0,55)___________________________.Position=UDim2.new(0,15,0,120)___________________________.BackgroundColor3=Color3.fromRGB(30,41,59)
-___________________________.Text=""___________________________.PlaceholderText="👉 FREE1234567890123456"___________________________.TextColor3=Color3.new(1,1,1)___________________________.Font=Enum.Font.Gotham ___________________________.TextSize=15 ___________________________.Parent=_____________________
-local ____________________________=Instance.new"UICorner"____________________________.CornerRadius=UDim.new(0,12)____________________________.Parent=___________________________
+local FondoKey = Instance.new("Frame")
+FondoKey.Size = UDim2.new(0, 420, 0, 280)
+FondoKey.Position = UDim2.new(0.5, -210, 0.5, -140)
+FondoKey.BackgroundColor3 = Color3.fromRGB(15, 23, 42)
+FondoKey.Active = true
+FondoKey.Draggable = true
+FondoKey.Parent = ScreenGuiKey
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 18)
+UICorner.Parent = FondoKey
 
-local _____________________________=Instance.new"TextButton"_____________________________.Size=UDim2.new(1,-30,0,55)_____________________________.Position=UDim2.new(0,15,0,190)_____________________________.BackgroundColor3=________
-_____________________________.Text="🔓 DESBLOQUEAR"_____________________________.TextColor3=Color3.new(1,1,1)_____________________________.Font=Enum.Font.GothamBold _____________________________.TextSize=17 _____________________________.Parent=_____________________
-local ______________________________=Instance.new"UICorner"______________________________.CornerRadius=UDim.new(0,12)______________________________.Parent=_____________________________
+local BarraTituloKey = Instance.new("Frame")
+BarraTituloKey.Size = UDim2.new(1, 0, 0, 70)
+BarraTituloKey.BackgroundColor3 = RainbowColor(0)
+BarraTituloKey.Parent = FondoKey
+local UICorner2 = Instance.new("UICorner")
+UICorner2.CornerRadius = UDim.new(0, 18)
+UICorner2.Parent = BarraTituloKey
 
-local _______________________________=Instance.new"TextLabel"_______________________________.Size=UDim2.new(1,0,0,35)_______________________________.Position=UDim2.new(0,0,1,-35)_______________________________.BackgroundTransparency=1
-_______________________________.Text=""_______________________________.TextColor3=Color3.fromRGB(255,60,90)_______________________________.Font=Enum.Font.GothamBold _______________________________.TextSize=13 _______________________________.Parent=_____________________
+local TituloKey = Instance.new("TextLabel")
+TituloKey.Size = UDim2.new(1, 0, 1, 0)
+TituloKey.BackgroundTransparency = 1
+TituloKey.Text = "🔐 INGRESA TU KEY"
+TituloKey.TextColor3 = Color3.new(1, 1, 1)
+TituloKey.Font = Enum.Font.GothamBold
+TituloKey.TextSize = 18
+TituloKey.Parent = BarraTituloKey
 
-_____________________________.MouseButton1Click:Connect(function()
-    _______________________________.Text="✅ Verificando..."
-    _______________________________.TextColor3=Color3.fromRGB(0,255,136)
-    task.wait(0.5)
-    local r=__________________(___________________________.Text)
-    if r.ok then
-        _______________________________.Text=r.msg
-        _______________________________.TextColor3=Color3.fromRGB(0,255,136)
-        task.wait(1)
-        _____________________:Destroy()
-        ____________________:Destroy()
-        spawn(function()
-            local __=Instance.new"ScreenGui"__.Name="Rainbow"__.ResetOnSpawn=false __.Parent=____
-            
-            local ___=Instance.new"Frame"___.Size=UDim2.new(0,240,0,220)___.Position=UDim2.new(0.02,0,0.5,-110)___.BackgroundColor3=Color3.fromRGB(15,15,35)___.BorderSizePixel=2 ___.BorderColor3=_______()___.Active=true ___.Draggable=true ___.Parent=__
-            local ____=Instance.new"UICorner"____.CornerRadius=UDim.new(0,16)____.Parent=___
+local SubtituloKey = Instance.new("TextLabel")
+SubtituloKey.Size = UDim2.new(1, -30, 0, 30)
+SubtituloKey.Position = UDim2.new(0, 15, 0, 80)
+SubtituloKey.BackgroundTransparency = 1
+SubtituloKey.Text = "🔑 FREE + 16 NÚMEROS (ej: FREE1234567890123456)"
+SubtituloKey.TextColor3 = Color3.fromRGB(180, 210, 255)
+SubtituloKey.Font = Enum.Font.Gotham
+SubtituloKey.TextSize = 13
+SubtituloKey.Parent = FondoKey
 
-            local _____=Instance.new"Frame"_____.Size=UDim2.new(1,0,0,40)_____.BackgroundColor3=_______()_____.Parent=___
-            local ______=Instance.new"UICorner"______.CornerRadius=UDim.new(0,16)______.Parent=_____
+local InputKey = Instance.new("TextBox")
+InputKey.Size = UDim2.new(1, -30, 0, 55)
+InputKey.Position = UDim2.new(0, 15, 0, 120)
+InputKey.BackgroundColor3 = Color3.fromRGB(30, 41, 59)
+InputKey.Text = ""
+InputKey.PlaceholderText = "👉 Escribe tu key aquí..."
+InputKey.TextColor3 = Color3.new(1, 1, 1)
+InputKey.Font = Enum.Font.Gotham
+InputKey.TextSize = 15
+InputKey.Parent = FondoKey
+local UICorner3 = Instance.new("UICorner")
+UICorner3.CornerRadius = UDim.new(0, 12)
+UICorner3.Parent = InputKey
 
-            local _______=Instance.new"TextLabel"_______.Size=UDim2.new(1,-80,1,0)_______.Position=UDim2.new(0,15,0,0)_______.BackgroundTransparency=1
-            _______.Text="🌈 RAINBOW PACK"_______.TextColor3=Color3.new(1,1,1)_______.Font=Enum.Font.GothamBold _______.TextSize=15 _______.Parent=_____
+local BtnDesbloquear = Instance.new("TextButton")
+BtnDesbloquear.Size = UDim2.new(1, -30, 0, 55)
+BtnDesbloquear.Position = UDim2.new(0, 15, 0, 190)
+BtnDesbloquear.BackgroundColor3 = RainbowColor(0)
+BtnDesbloquear.Text = "🔓 DESBLOQUEAR PANEL"
+BtnDesbloquear.TextColor3 = Color3.new(1, 1, 1)
+BtnDesbloquear.Font = Enum.Font.GothamBold
+BtnDesbloquear.TextSize = 17
+BtnDesbloquear.Parent = FondoKey
+local UICorner4 = Instance.new("UICorner")
+UICorner4.CornerRadius = UDim.new(0, 12)
+UICorner4.Parent = BtnDesbloquear
 
-            -- ✅ BOTÓN MINIMIZAR — ARREGLADO Y VISIBLE
-            local ________=Instance.new"TextButton"________.Size=UDim2.new(0,35,0,35)________.Position=UDim2.new(1,-75,0,2.5)________.BackgroundColor3=Color3.fromRGB(30,100,180)________.Text="−"________.TextColor3=Color3.new(1,1,1)________.Font=Enum.Font.GothamBold ________.TextSize=22 ________.Parent=_____
+local EstadoKey = Instance.new("TextLabel")
+EstadoKey.Size = UDim2.new(1, 0, 0, 35)
+EstadoKey.Position = UDim2.new(0, 0, 1, -35)
+EstadoKey.BackgroundTransparency = 1
+EstadoKey.Text = ""
+EstadoKey.TextColor3 = Color3.fromRGB(255, 60, 90)
+EstadoKey.Font = Enum.Font.GothamBold
+EstadoKey.TextSize = 13
+EstadoKey.Parent = FondoKey
 
-            local _________=Instance.new"TextButton"_________.Size=UDim2.new(0,35,0,35)_________.Position=UDim2.new(1,-35,0,2.5)_________.BackgroundColor3=Color3.fromRGB(180,40,40)_________.Text="×"_________.TextColor3=Color3.new(1,1,1)_________.Font=Enum.Font.GothamBold _________.TextSize=22 _________.Parent=_____
+-- =============================================
+-- 🎉 PANEL PRINCIPAL
+-- =============================================
+local function CrearPanelPrincipal()
+    ScreenGuiKey:Destroy()
+    
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "PanelRainbow"
+    ScreenGui.ResetOnSpawn = false
+    ScreenGui.Parent = PlayerGui
 
-            local __________=Instance.new"Frame"__________.Size=UDim2.new(1,-20,0,170)__________.Position=UDim2.new(0,10,0,50)__________.BackgroundTransparency=1 __________.Parent=___
+    local Panel = Instance.new("Frame")
+    Panel.Size = UDim2.new(0, 220, 0, 200)
+    Panel.Position = UDim2.new(0.02, 0, 0.5, -100)
+    Panel.BackgroundColor3 = Color3.fromRGB(15, 15, 35)
+    Panel.BorderSizePixel = 2
+    Panel.BorderColor3 = RainbowColor(0)
+    Panel.Active = true
+    Panel.Draggable = true
+    Panel.Parent = ScreenGui
+    local UICornerPanel = Instance.new("UICorner")
+    UICornerPanel.CornerRadius = UDim.new(0, 16)
+    UICornerPanel.Parent = Panel
 
-            local ___________=Instance.new"TextButton"___________.Size=UDim2.new(1,0,0,45)___________.Position=UDim2.new(0,0,0,0)___________.BackgroundColor3=Color3.fromRGB(30,30,60)___________.BorderSizePixel=1 ___________.BorderColor3=_______()___________.Text="🌈 HOLOGRAMA: OFF"___________.TextColor3=Color3.fromRGB(220,200,255)___________.Font=Enum.Font.Gotham ___________.TextSize=14 ___________.Parent=__________
-            local ____________=Instance.new"UICorner"____________.CornerRadius=UDim.new(0,12)____________.Parent=___________
+    local BarraTitulo = Instance.new("Frame")
+    BarraTitulo.Size = UDim2.new(1, 0, 0, 35)
+    BarraTitulo.BackgroundColor3 = RainbowColor(0)
+    BarraTitulo.Parent = Panel
+    local UICornerBarra = Instance.new("UICorner")
+    UICornerBarra.CornerRadius = UDim.new(0, 16)
+    UICornerBarra.Parent = BarraTitulo
 
-            local _____________=Instance.new"TextButton"_____________.Size=UDim2.new(1,0,0,45)_____________.Position=UDim2.new(0,0,0,55)_____________.BackgroundColor3=Color3.fromRGB(30,30,60)_____________.BorderSizePixel=1 _____________.BorderColor3=_______()_____________.Text="🌈 ESP LÍNEA: OFF"_____________.TextColor3=Color3.fromRGB(220,200,255)_____________.Font=Enum.Font.Gotham _____________.TextSize=14 _____________.Parent=__________
-            local ______________=Instance.new"UICorner"______________.CornerRadius=UDim.new(0,12)______________.Parent=_____________
+    local Titulo = Instance.new("TextLabel")
+    Titulo.Size = UDim2.new(1, -70, 1, 0)
+    Titulo.Position = UDim2.new(0, 15, 0, 0)
+    Titulo.BackgroundTransparency = 1
+    Titulo.Text = "🌈 RAINBOW PACK"
+    Titulo.TextColor3 = Color3.new(1, 1, 1)
+    Titulo.Font = Enum.Font.GothamBold
+    Titulo.TextSize = 16
+    Titulo.Parent = BarraTitulo
 
-            local _______________=Instance.new"TextButton"________________.Size=UDim2.new(1,0,0,45)________________.Position=UDim2.new(0,0,0,110)________________.BackgroundColor3=Color3.fromRGB(30,30,60)________________.BorderSizePixel=1 ________________.BorderColor3=_______()________________.Text="🚀 NOCLIP: OFF"________________.TextColor3=Color3.fromRGB(220,200,255)________________.Font=Enum.Font.Gotham ________________.TextSize=14 ________________.Parent=__________
-            local __________________=Instance.new"UICorner"__________________.CornerRadius=UDim.new(0,12)__________________.Parent=________________
+    local BtnMinimizar = Instance.new("TextButton")
+    BtnMinimizar.Size = UDim2.new(0, 30, 0, 30)
+    BtnMinimizar.Position = UDim2.new(1, -65, 0, 2.5)
+    BtnMinimizar.BackgroundColor3 = Color3.fromRGB(30, 100, 180)
+    BtnMinimizar.Text = "−"
+    BtnMinimizar.TextColor3 = Color3.new(1, 1, 1)
+    BtnMinimizar.Font = Enum.Font.GothamBold
+    BtnMinimizar.TextSize = 20
+    BtnMinimizar.Parent = BarraTitulo
 
-            -- ✅ BOTÓN RESTAURAR
-            local ___________________=Instance.new"TextButton"___________________.Size=UDim2.new(0,70,0,45)___________________.BackgroundColor3=________ ___________________.Text="🌈 VIP"___________________.TextColor3=Color3.new(1,1,1)___________________.Font=Enum.Font.GothamBold ___________________.TextSize=13 ___________________.Visible=false ___________________.Active=true ___________________.Draggable=true ___________________.Parent=__
-            local ____________________=Instance.new"UICorner"____________________.CornerRadius=UDim.new(0,12)____________________.Parent=___________________
+    local BtnCerrar = Instance.new("TextButton")
+    BtnCerrar.Size = UDim2.new(0, 30, 0, 30)
+    BtnCerrar.Position = UDim2.new(1, -35, 0, 2.5)
+    BtnCerrar.BackgroundColor3 = Color3.fromRGB(180, 40, 40)
+    BtnCerrar.Text = "×"
+    BtnCerrar.TextColor3 = Color3.new(1, 1, 1)
+    BtnCerrar.Font = Enum.Font.GothamBold
+    BtnCerrar.TextSize = 20
+    BtnCerrar.Parent = BarraTitulo
 
-            local _____________________=false
-            local ______________________=function()
-                _____________________=not _____________________
-                __________.Visible=not _____________________
-                __________.Parent.Visible=not _____________________
-                _______________.Visible=not _____________________
-                _____________.Visible=not _____________________
-                ___________.Visible=not _____________________
-                ___.Size=_____________________ and UDim2.new(0,240,0,40) or UDim2.new(0,240,0,220)
-                ___________________.Visible=_____________________
-                if _____________________ then ___________________.Position=___.Position end
+    local Contenido = Instance.new("Frame")
+    Contenido.Size = UDim2.new(1, -20, 0, 160)
+    Contenido.Position = UDim2.new(0, 10, 0, 45)
+    Contenido.BackgroundTransparency = 1
+    Contenido.Parent = Panel
+
+    local BtnHolograma = Instance.new("TextButton")
+    BtnHolograma.Size = UDim2.new(1, 0, 0, 40)
+    BtnHolograma.Position = UDim2.new(0, 0, 0, 0)
+    BtnHolograma.BackgroundColor3 = Color3.fromRGB(30, 30, 60)
+    BtnHolograma.BorderSizePixel = 1
+    BtnHolograma.BorderColor3 = RainbowColor(0)
+    BtnHolograma.Text = "🌈 HOLOGRAMA: OFF"
+    BtnHolograma.TextColor3 = Color3.fromRGB(200, 200, 255)
+    BtnHolograma.Font = Enum.Font.Gotham
+    BtnHolograma.TextSize = 14
+    BtnHolograma.Parent = Contenido
+    local UICornerHolo = Instance.new("UICorner")
+    UICornerHolo.CornerRadius = UDim.new(0, 12)
+    UICornerHolo.Parent = BtnHolograma
+
+    local BtnESP = Instance.new("TextButton")
+    BtnESP.Size = UDim2.new(1, 0, 0, 40)
+    BtnESP.Position = UDim2.new(0, 0, 0, 50)
+    BtnESP.BackgroundColor3 = Color3.fromRGB(30, 30, 60)
+    BtnESP.BorderSizePixel = 1
+    BtnESP.BorderColor3 = RainbowColor(0)
+    BtnESP.Text = "🌈 ESP LÍNEA: OFF"
+    BtnESP.TextColor3 = Color3.fromRGB(200, 200, 255)
+    BtnESP.Font = Enum.Font.Gotham
+    BtnESP.TextSize = 14
+    BtnESP.Parent = Contenido
+    local UICornerESP = Instance.new("UICorner")
+    UICornerESP.CornerRadius = UDim.new(0, 12)
+    UICornerESP.Parent = BtnESP
+
+    local BtnNoClip = Instance.new("TextButton")
+    BtnNoClip.Size = UDim2.new(1, 0, 0, 40)
+    BtnNoClip.Position = UDim2.new(0, 0, 0, 100)
+    BtnNoClip.BackgroundColor3 = Color3.fromRGB(30, 30, 60)
+    BtnNoClip.BorderSizePixel = 1
+    BtnNoClip.BorderColor3 = RainbowColor(0)
+    BtnNoClip.Text = "🚀 NOCLIP: OFF"
+    BtnNoClip.TextColor3 = Color3.fromRGB(200, 200, 255)
+    BtnNoClip.Font = Enum.Font.Gotham
+    BtnNoClip.TextSize = 14
+    BtnNoClip.Parent = Contenido
+    local UICornerNoClip = Instance.new("UICorner")
+    UICornerNoClip.CornerRadius = UDim.new(0, 12)
+    UICornerNoClip.Parent = BtnNoClip
+
+    local BtnRestaurar = Instance.new("TextButton")
+    BtnRestaurar.Size = UDim2.new(0, 70, 0, 40)
+    BtnRestaurar.BackgroundColor3 = RainbowColor(0)
+    BtnRestaurar.Text = "🌈 VIP"
+    BtnRestaurar.TextColor3 = Color3.new(1, 1, 1)
+    BtnRestaurar.Font = Enum.Font.GothamBold
+    BtnRestaurar.TextSize = 13
+    BtnRestaurar.Visible = false
+    BtnRestaurar.Active = true
+    BtnRestaurar.Draggable = true
+    BtnRestaurar.Parent = ScreenGui
+    local UICornerRest = Instance.new("UICorner")
+    UICornerRest.CornerRadius = UDim.new(0, 12)
+    UICornerRest.Parent = BtnRestaurar
+
+    local Minimizado = false
+    local function ToggleMinimizar()
+        Minimizado = not Minimizado
+        Contenido.Visible = not Minimizado
+        BtnMinimizar.Visible = not Minimizado
+        Panel.Size = Minimizado and UDim2.new(0, 220, 0, 35) or UDim2.new(0, 220, 0, 200)
+        BtnRestaurar.Visible = Minimizado
+        if Minimizado then
+            BtnRestaurar.Position = Panel.Position
+        end
+    end
+
+    BtnMinimizar.MouseButton1Click:Connect(ToggleMinimizar)
+    BtnRestaurar.MouseButton1Click:Connect(ToggleMinimizar)
+
+    BtnCerrar.MouseButton1Click:Connect(function()
+        ScreenGui:Destroy()
+        for _, h in pairs(Highlights) do
+            if h then h:Destroy() end
+        end
+        for _, l in pairs(LineasESP) do
+            if l then l:Remove() end
+        end
+        -- ✅ Detener animación al cerrar
+        if ConexionAnimacionHolo then ConexionAnimacionHolo:Disconnect() end
+    end)
+
+    -- =============================================
+    -- 🌈 HOLOGRAMA — ANIMACIÓN CONTINUA ARCOÍRIS ✅
+    -- =============================================
+    local function CrearHolograma(jugador)
+        if not HologramaActivo then return end
+        if jugador == LocalPlayer then return end
+        local personaje = jugador.Character
+        if not personaje then return end
+        if Highlights[jugador] then return end
+
+        local highlight = Instance.new("Highlight")
+        highlight.Name = "HologramaRainbow"
+        highlight.FillColor = RainbowColor(0)
+        highlight.OutlineColor = RainbowColor(0.5)
+        highlight.FillTransparency = 0.3
+        highlight.OutlineTransparency = 0
+        highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+        highlight.Adornee = personaje
+        highlight.Parent = personaje
+        Highlights[jugador] = highlight
+    end
+
+    local function EliminarHolograma(jugador)
+        if Highlights[jugador] then
+            Highlights[jugador]:Destroy()
+            Highlights[jugador] = nil
+        end
+    end
+
+    local function ActualizarTodosHologramas()
+        for _, jugador in ipairs(Players:GetPlayers()) do
+            if HologramaActivo then
+                CrearHolograma(jugador)
+            else
+                EliminarHolograma(jugador)
             end
+        end
+    end
 
-            __________.MouseButton1Click:Connect(______________________)
-            ___________________.MouseButton1Click:Connect(______________________)
-
-            _________.MouseButton1Click:Connect(function()
-                __:Destroy()
-                for _,h in pairs(_____________)do if h then h:Destroy() end end
-                for _,l in pairs(______________)do if l then l:Remove() end end
-            end)
-
-            -- =============================================
-            -- 🌈 HOLOGRAMA — ESTRUCTURA ORIGINAL DEL CÓDIGO AZUL
-            -- =============================================
-            local _______________________=function(p)
-                if not ____________ then return end
-                if p==___ then return end
-                local c=p.Character
-                if not c then return end
-                if _____________[p] then return end
-                local h=Instance.new"Highlight"h.Name="HologramaRainbow"
-                h.FillColor=_______(0)h.OutlineColor=_______(0.5)
-                h.FillTransparency=0.3 h.OutlineTransparency=0
-                h.DepthMode=Enum.HighlightDepthMode.AlwaysOnTop
-                h.Adornee=c h.Parent=c
-                _____________[p]=h
-            end
-            local ________________________=function(p)
-                if _____________[p] then _____________[p]:Destroy()_____________[p]=nil end
-            end
-            local _________________________=function()
-                for _,p in ipairs(_:GetPlayers())do
-                    if ____________ then _______________________(p)
-                    else ________________________(p) end
+    -- ✅ ANIMACIÓN: CAMBIA DE COLOR SIN PARAR
+    local function IniciarAnimacionHolograma()
+        if ConexionAnimacionHolo then ConexionAnimacionHolo:Disconnect() end
+        ConexionAnimacionHolo = RunService.RenderStepped:Connect(function()
+            if not HologramaActivo then return end
+            for jugador, highlight in pairs(Highlights) do
+                if highlight then
+                    highlight.FillColor = RainbowColor(0)      -- 🔴🟡🟢🔵🟣 Cambia sin parar
+                    highlight.OutlineColor = RainbowColor(0.5)   -- Color diferente para el borde
                 end
             end
-
-            -- 🔄 Animación arcoíris
-            task.spawn(function()
-                while true do task.wait(0.05)
-                    if ____________ then
-                        for _,h in pairs(_____________)do
-                            if h then h.FillColor=_______(0)h.OutlineColor=_______(0.5) end
-                        end
-                    end
-                end
-            end)
-
-            -- =============================================
-            -- 🌈 ESP LÍNEA — ESTRUCTURA ORIGINAL DEL CÓDIGO AZUL
-            -- =============================================
-            local __________________________=function(p)
-                if not _______________ then return end
-                if p==___ then return end
-                if _______________[p] then return end
-                local l=Drawing.new"Line"l.Thickness=2 l.Transparency=1
-                l.Color=_______()l.Visible=false
-                _______________[p]=l
-            end
-            local ___________________________=function(p)
-                if _______________[p] then _______________[p]:Remove()_______________[p]=nil end
-            end
-            local ____________________________=function()
-                if not _______________ then
-                    for _,l in pairs(______________)do l.Visible=false end
-                    return
-                end
-                local c=___.Character if not c then return end
-                local hrp=c:FindFirstChild"HumanoidRootPart"if not hrp then return end
-                for _,p in ipairs(_:GetPlayers())do
-                    if p==___ then continue end
-                    __________________________(p)
-                    local pc=p.Character if not pc then continue end
-                    local phrp=pc:FindFirstChild"HumanoidRootPart"local h=pc:FindFirstChild"Head"
-                    if not phrp or not h then continue end
-                    local v1=_____:WorldToViewportPoint(hrp.Position)
-                    local v2=_____:WorldToViewportPoint(h.Position)
-                    local l=_______________[p]
-                    if v2.Z>0 then
-                        l.From=Vector2.new(v1.X,v1.Y)
-                        l.To=Vector2.new(v2.X,v2.Y)
-                        l.Color=_______()
-                        l.Visible=true
-                    else
-                        l.Visible=false
-                    end
-                end
-            end
-
-            -- =============================================
-            -- 🚀 NOCLIP — TU ESTRUCTURA EXACTA DEL CÓDIGO AZUL
-            -- =============================================
-            local _____________________________=function()
-                if not _____________ then return end
-                local c=___.Character if not c then return end
-                for _,p in ipairs(c:GetDescendants())do
-                    if p:IsA"BasePart"then p.CanCollide=false end
-                end
-            end
-
-            -- =============================================
-            -- 🔘 BOTONES — ESTRUCTURA ORIGINAL
-            -- =============================================
-            _______________.MouseButton1Click:Connect(function()
-                ____________=not ____________
-                _______________.Text=____________ and "🌈 HOLOGRAMA: ON ✅" or "🌈 HOLOGRAMA: OFF"
-                _______________.BackgroundColor3=____________ and _______() or Color3.fromRGB(30,30,60)
-                _________________________()
-            end)
-
-            _____________.MouseButton1Click:Connect(function()
-                _______________=not _______________
-                _____________.Text=_______________ and "🌈 ESP LÍNEA: ON ✅" or "🌈 ESP LÍNEA: OFF"
-                _____________.BackgroundColor3=_______________ and _______() or Color3.fromRGB(30,30,60)
-                if _______________ then
-                    ________________=__.RenderStepped:Connect(____________________________)
-                else
-                    if ________________ then ________________:Disconnect()end
-                    for _,l in pairs(_______________)do l.Visible=false end
-                end
-            end)
-
-            ________________.MouseButton1Click:Connect(function()
-                _____________=not _____________
-                ________________.Text=_____________ and "🚀 NOCLIP: ON ✅" or "🚀 NOCLIP: OFF"
-                ________________.BackgroundColor3=_____________ and _______() or Color3.fromRGB(30,30,60)
-                if _____________ then
-                    _________________=__.Stepped:Connect(_____________________________)
-                else
-                    if _________________ then _________________:Disconnect()end
-                    local c=___.Character if c then
-                        for _,p in ipairs(c:GetDescendants())do
-                            if p:IsA"BasePart"then p.CanCollide=true end
-                        end
-                    end
-                end
-            end)
-
-            -- =============================================
-            -- 🔄 DETECTAR JUGADORES NUEVOS / SALIDA — IGUAL A TU CÓDIGO
-            -- =============================================
-            _.PlayerAdded:Connect(function(p)
-                p.CharacterAdded:Connect(function()
-                    task.wait(0.5)
-                    if ____________ then _______________________(p) end
-                    if _______________ then __________________________(p) end
-                end)
-            end)
-
-            _.PlayerRemoving:Connect(function(p)
-                ________________________(p)
-                ___________________________(p)
-            end)
-
-            -- Animación bordes
-            task.spawn(function()
-                while true do task.wait(0.05)
-                    ___.BorderColor3=_______()
-                    _______________.BorderColor3=_______()
-                    _____________.BorderColor3=_______()
-                    _______________.BorderColor3=_______()
-                    _____.BackgroundColor3=_______()
-                end
-            end)
-
-            -- Inicializar
-            task.wait(0.5)
-            _________________________()
-            print("🌈 PANEL CARGADO — TODO FUNCIONAL ✅")
         end)
+    end
+
+    -- =============================================
+    -- 🌈 ESP LÍNEA — ARCOÍRIS
+    -- =============================================
+    local function CrearLineaESP(jugador)
+        if not ESPActivo then return end
+        if jugador == LocalPlayer then return end
+        if LineasESP[jugador] then return end
+        local linea = Drawing.new("Line")
+        linea.Thickness = 2
+        linea.Transparency = 1
+        linea.Color = RainbowColor(0)
+        linea.Visible = false
+        LineasESP[jugador] = linea
+    end
+
+    local function EliminarLineaESP(jugador)
+        if LineasESP[jugador] then
+            LineasESP[jugador]:Remove()
+            LineasESP[jugador] = nil
+        end
+    end
+
+    local function ActualizarESP()
+        if not ESPActivo then
+            for _, linea in pairs(LineasESP) do
+                linea.Visible = false
+            end
+            return
+        end
+        local miChar = LocalPlayer.Character
+        if not miChar then return end
+        local miHRP = miChar:FindFirstChild("HumanoidRootPart")
+        if not miHRP then return end
+        for _, jugador in ipairs(Players:GetPlayers()) do
+            if jugador == LocalPlayer then continue end
+            CrearLineaESP(jugador)
+            local personaje = jugador.Character
+            if not personaje then continue end
+            local hrp = personaje:FindFirstChild("HumanoidRootPart")
+            local cabeza = personaje:FindFirstChild("Head")
+            if not hrp or not cabeza then continue end
+            local linea = LineasESP[jugador]
+            local vectorInicio = Camera:WorldToViewportPoint(miHRP.Position)
+            local vectorFin = Camera:WorldToViewportPoint(cabeza.Position)
+            if vectorFin.Z > 0 then
+                linea.From = Vector2.new(vectorInicio.X, vectorInicio.Y)
+                linea.To = Vector2.new(vectorFin.X, vectorFin.Y)
+                linea.Color = RainbowColor(0)  -- ✅ La línea también cambia de color
+                linea.Visible = true
+            else
+                linea.Visible = false
+            end
+        end
+    end
+
+    -- =============================================
+    -- 🚀 NOCLIP
+    -- =============================================
+    local function ActualizarNoClip()
+        if not NoClipActivo then return end
+        local char = LocalPlayer.Character
+        if not char then return end
+        for _, parte in ipairs(char:GetDescendants()) do
+            if parte:IsA("BasePart") then
+                parte.CanCollide = false
+            end
+        end
+    end
+
+    -- =============================================
+    -- 🔘 BOTONES
+    -- =============================================
+    BtnHolograma.MouseButton1Click:Connect(function()
+        HologramaActivo = not HologramaActivo
+        BtnHolograma.Text = HologramaActivo and "🌈 HOLOGRAMA: ON ✅" or "🌈 HOLOGRAMA: OFF"
+        BtnHolograma.BackgroundColor3 = HologramaActivo and RainbowColor(0) or Color3.fromRGB(30, 30, 60)
+        ActualizarTodosHologramas()
+        if HologramaActivo then
+            IniciarAnimacionHolograma()  -- ✅ Empieza a cambiar de color
+        else
+            if ConexionAnimacionHolo then ConexionAnimacionHolo:Disconnect() end
+        end
+    end)
+
+    BtnESP.MouseButton1Click:Connect(function()
+        ESPActivo = not ESPActivo
+        BtnESP.Text = ESPActivo and "🌈 ESP LÍNEA: ON ✅" or "🌈 ESP LÍNEA: OFF"
+        BtnESP.BackgroundColor3 = ESPActivo and RainbowColor(0) or Color3.fromRGB(30, 30, 60)
+        if ESPActivo then
+            ConexionESP = RunService.RenderStepped:Connect(ActualizarESP)
+        else
+            if ConexionESP then ConexionESP:Disconnect() end
+            for _, linea in pairs(LineasESP) do
+                linea.Visible = false
+            end
+        end
+    end)
+
+    BtnNoClip.MouseButton1Click:Connect(function()
+        NoClipActivo = not NoClipActivo
+        BtnNoClip.Text = NoClipActivo and "🚀 NOCLIP: ON ✅" or "🚀 NOCLIP: OFF"
+        BtnNoClip.BackgroundColor3 = NoClipActivo and RainbowColor(0) or Color3.fromRGB(30, 30, 60)
+        if NoClipActivo then
+            ConexionNoClip = RunService.Stepped:Connect(ActualizarNoClip)
+        else
+            if ConexionNoClip then ConexionNoClip:Disconnect() end
+            local char = LocalPlayer.Character
+            if char then
+                for _, parte in ipairs(char:GetDescendants()) do
+                    if parte:IsA("BasePart") then
+                        parte.CanCollide = true
+                    end
+                end
+            end
+        end
+    end)
+
+    -- =============================================
+    -- 🔄 DETECTAR JUGADORES NUEVOS
+    -- =============================================
+    Players.PlayerAdded:Connect(function(jugador)
+        jugador.CharacterAdded:Connect(function()
+            task.wait(0.5)
+            if HologramaActivo then CrearHolograma(jugador) end
+            if ESPActivo then CrearLineaESP(jugador) end
+        end)
+    end)
+
+    Players.PlayerRemoving:Connect(function(jugador)
+        EliminarHolograma(jugador)
+        EliminarLineaESP(jugador)
+    end)
+
+    -- 🔄 ANIMACIÓN DE BORDES Y BOTONES
+    task.spawn(function()
+        while true do
+            task.wait(0.05)
+            Panel.BorderColor3 = RainbowColor(0)
+            BarraTitulo.BackgroundColor3 = RainbowColor(0)
+            BtnHolograma.BorderColor3 = RainbowColor(0)
+            BtnESP.BorderColor3 = RainbowColor(0)
+            BtnNoClip.BorderColor3 = RainbowColor(0)
+            BtnRestaurar.BackgroundColor3 = RainbowColor(0)
+        end
+    end)
+
+    task.wait(1)
+    ActualizarTodosHologramas()
+    print("🌈 PANEL CARGADO — HOLOGRAMA ANIMADO ✅")
+end
+
+-- =============================================
+-- 🔘 BOTÓN DE DESBLOQUEO
+-- =============================================
+BtnDesbloquear.MouseButton1Click:Connect(function()
+    EstadoKey.Text = "✅ Verificando..."
+    EstadoKey.TextColor3 = Color3.fromRGB(0, 255, 136)
+    task.wait(0.5)
+    
+    local valido, mensaje = ValidarKey(InputKey.Text)
+    if valido then
+        EstadoKey.Text = mensaje
+        EstadoKey.TextColor3 = Color3.fromRGB(0, 255, 136)
+        KeyValida = true
+        task.wait(1)
+        CrearPanelPrincipal()
     else
-        _______________________________.Text=r.msg
-        _______________________________.TextColor3=Color3.fromRGB(255,60,90)
+        EstadoKey.Text = mensaje
+        EstadoKey.TextColor3 = Color3.fromRGB(255, 60, 90)
         task.wait(2.5)
-        _______________________________.Text=""
+        EstadoKey.Text = ""
     end
 end)
 
